@@ -1,5 +1,5 @@
 [requires]
-glaze/1.9.9
+glaze/2.0.0
 
 [generators]
 CMakeDeps
