@@ -1,0 +1,6 @@
+[requires]
+glaze/1.9.9
+
+[generators]
+CMakeDeps
+CMakeToolchain

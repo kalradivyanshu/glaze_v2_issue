@@ -1,0 +1,9 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "/home/divya/code/glaze_bug/build/CMakePresets.json"
+    ]
+}
