@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <glaze/glaze.hpp>
 #include <map>
+#include <refl.hpp>
 #include <string>
 #include <variant>
 #include <vector>
@@ -109,3 +110,47 @@ struct glz::meta<details::B> {
     using enum details::B;
     static constexpr auto value = enumerate("0", B1, "1", B2);
 };
+
+struct SD {
+    uint8_t t;
+    std::string sid;
+    uint8_t sn;
+    uint8_t ln;
+    uint8_t sln;
+    bool k;
+    uint64_t sn_;
+    uint8_t ffs;
+    uint64_t fls;
+    uint64_t fsn;
+    uint64_t fgn;
+    uint64_t ct;
+    uint64_t t_;
+    uint64_t fn_;
+    uint64_t d_s;
+    uint64_t pt;
+    uint64_t fst;
+    size_t dl;
+    std::vector<uint8_t> d;
+};
+
+REFL_TYPE(SD)
+REFL_FIELD(t)
+REFL_FIELD(sid)
+REFL_FIELD(sn)
+REFL_FIELD(ln)
+REFL_FIELD(sln)
+REFL_FIELD(k)
+REFL_FIELD(sn_)
+REFL_FIELD(ffs)
+REFL_FIELD(fls)
+REFL_FIELD(fsn)
+REFL_FIELD(fgn)
+REFL_FIELD(ct)
+REFL_FIELD(t_)
+REFL_FIELD(fn_)
+REFL_FIELD(d_s)
+REFL_FIELD(pt)
+REFL_FIELD(fst)
+REFL_FIELD(dl)
+REFL_FIELD(d)
+REFL_END

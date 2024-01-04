@@ -6,7 +6,7 @@ set -x
 BASEDIR=$(dirname "$0")
 pushd "$BASEDIR"
 
-rm -rf build
+# rm -rf build
 
 conan install . --output-folder=build --build=missing
 cd build
