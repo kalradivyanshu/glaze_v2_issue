@@ -1,5 +1,5 @@
 [requires]
-glaze/2.0.1
+glaze/2.0.2
 refl-cpp/0.12.4
 
 [generators]
