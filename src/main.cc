@@ -2,37 +2,76 @@
 #include <cstdint>
 #include <glaze/glaze.hpp>
 #include <iostream>
+#include <map>
+#include <variant>
 
 #include "struct_details.hh"
 #include "writer.hh"
 
+struct A {
+    uint8_t a;
+};
+
+struct A1 {
+    std::map<uint8_t, uint64_t> a;
+};
+
+struct B {
+    uint8_t b;
+    A1 a;
+};
+
+struct C {
+    bool is_a;
+    std::map<uint8_t, std::variant<A, B>> a;
+};
+
+class D {
+   public:
+    C c;
+};
+
+template <>
+struct glz::meta<A> {
+    using T = A;
+    static constexpr auto value = object("a", &T::a);
+};
+
+template <>
+struct glz::meta<A1> {
+    using T = A1;
+    static constexpr auto value = object("a", &T::a);
+};
+
+template <>
+struct glz::meta<B> {
+    using T = B;
+    static constexpr auto value = object("b", &T::b, "a", &T::a);
+};
+
+template <>
+struct glz::meta<C> {
+    using T = C;
+    static constexpr auto value = object("is_a", &T::is_a, "a", &T::a);
+};
+
+template <>
+struct glz::meta<D> {
+    using T = D;
+    static constexpr auto value = object("c", &T::c);
+};
+
 int main(void) {
-    auto sd1 = SD{
-        .t = 20,
-        .sid = "abcd1",
-        .sn = 12,
-        .ln = 1,
-        .sln = 10,
-        .k = true,
-        .sn_ = 121,
-        .ffs = 10,
-        .fls = 1,
-        .fgn = 10,
-        .ct = 15313,
-        .t_ = 1351231,
-        .fn_ = 121,
-        .d_s = 121,
-        .pt = 1413134,
-        .fst = 1354134,
-        .dl = 1032,
-    };
+    using Ty = D;
+    Ty d;
 
-    auto buffer = glz::write_binary_untagged(sd1);
+    std::vector<uint8_t> out;
+    glz::write<glz::opts{.format = glz::binary, .structs_as_arrays = true}>(d, out);
 
-    auto writer = writer::Writer(200);
+    Ty c1;
+    auto _ = glz::read_binary_untagged(c1, out);
 
-    writer::serialize(writer, sd1);
+    std::cout << "written: " << glz::write_json(out) << std::endl;
 
-    std::cout << "glaze untagged: " << buffer.size()
-              << " writer: " << writer.off() << std::endl;
+    std::cout << "recovered: " << glz::write_json(c1) << std::endl;
 }
